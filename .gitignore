@@ -1,0 +1,9 @@
+node_modules
+dist
+*.local
+.DS_Store
+.vite
+node_modules/.cache
+
+# Investor deck — kept local, never published
+RUKN_Deck.pptx

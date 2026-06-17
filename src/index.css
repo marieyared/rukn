@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #eef2f3;
+  color: #12233d;
+  font-family: 'Inter', Calibri, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Serif display for headings, per the deck's "serious finance" direction */
+.font-display {
+  font-family: Georgia, Cambria, 'Times New Roman', serif;
+  letter-spacing: -0.01em;
+}
+
+/* Tabular figures so numbers don't jitter while the score animates */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: rgba(217, 138, 61, 0.25);
+}
+
+/* Custom range slider — petrol track, navy thumb */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: #d7e0e1;
+  outline: none;
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #12233d;
+  border: 3px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(18, 35, 61, 0.3);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+input[type='range']::-webkit-slider-thumb:active {
+  transform: scale(1.15);
+}
+input[type='range']::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #12233d;
+  border: 3px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(18, 35, 61, 0.3);
+  cursor: pointer;
+}
