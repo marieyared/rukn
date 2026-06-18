@@ -26,7 +26,7 @@ export function ProfileForm({
   return (
     <aside className="w-full lg:w-[380px] shrink-0 bg-white rounded-2xl shadow-card ring-1 ring-ink/5 p-5 h-fit lg:sticky lg:top-5 animate-fadeup">
       <div className="flex items-center justify-between mb-1">
-        <h2 className="font-display text-lg font-semibold text-navy">Exposure profile</h2>
+        <h2 className="font-display text-lg font-semibold text-navy">Your business</h2>
         <button
           onClick={onClose}
           className="lg:hidden text-ink-soft text-sm hover:text-navy"
@@ -35,7 +35,7 @@ export function ProfileForm({
         </button>
       </div>
       <p className="text-[12px] text-ink-soft mb-4 leading-snug">
-        Describe how the business is wired. The score and every € figure update live.
+        Tell us how the business works. The score and every € number update as you move a slider.
       </p>
 
       <Field label="Company name">
@@ -47,7 +47,7 @@ export function ProfileForm({
       </Field>
 
       <div className="grid grid-cols-2 gap-3">
-        <Field label="Annual revenue">
+        <Field label="Yearly sales">
           <NumberInput
             value={profile.annualRevenue}
             step={1_000_000}
@@ -57,58 +57,63 @@ export function ProfileForm({
           />
         </Field>
         <Slider
-          label="Gross margin"
+          label="Profit margin"
           value={profile.grossMarginPct}
           suffix="%"
           onChange={(v) => set('grossMarginPct', v)}
+          hint="What's left after the cost of what you sell."
         />
       </div>
 
-      <SectionTitle>Currency mix — the core</SectionTitle>
+      <SectionTitle>Money in vs money out — the core</SectionTitle>
       <Slider
-        label="Revenue in hard currency"
+        label="Sales paid in dollars/euros"
         value={profile.revenueHardCcyPct}
         suffix="%"
         onChange={(v) => set('revenueHardCcyPct', v)}
+        hint="Share of your sales customers pay in USD/EUR, not local currency."
       />
       <Slider
-        label="Costs in hard currency (USD/EUR)"
+        label="Costs paid in dollars/euros"
         value={profile.costHardCcyPct}
         suffix="%"
         onChange={(v) => set('costHardCcyPct', v)}
+        hint="Share of your costs — imports, suppliers — you pay in USD/EUR."
       />
       <Slider
-        label="Hedge ratio"
+        label="Currency protection"
         value={profile.hedgeRatioPct}
         suffix="%"
         onChange={(v) => set('hedgeRatioPct', v)}
-        hint="Often ~0 in frontier markets — that's expected."
+        hint="How much of your dollar/euro exposure is locked in (hedged). Often ~0 in frontier markets — that's normal."
       />
 
-      <SectionTitle>Liquidity & concentration</SectionTitle>
+      <SectionTitle>Cushion & dependence</SectionTitle>
       <Slider
-        label="Liquidity buffer"
+        label="Cash cushion"
         value={profile.liquidityBufferMonths}
         max={12}
         step={0.5}
         suffix=" mo"
         onChange={(v) => set('liquidityBufferMonths', v)}
-        hint="Months of OPEX covered by cash + committed lines."
+        hint="Months you could keep operating on cash + credit lines if income stopped."
       />
       <Slider
-        label="Top market share"
+        label="Reliance on your biggest market"
         value={profile.topMarketPct}
         suffix="%"
         onChange={(v) => set('topMarketPct', v)}
+        hint="Share of sales from your single largest country/market."
       />
       <Slider
-        label="Top supplier / corridor share"
+        label="Reliance on your biggest supplier/route"
         value={profile.topSourcePct}
         suffix="%"
         onChange={(v) => set('topSourcePct', v)}
+        hint="Share of sourcing through one supplier or one shipping route."
       />
 
-      <SectionTitle>Countries of operation</SectionTitle>
+      <SectionTitle>Where you operate</SectionTitle>
       <div className="flex flex-wrap gap-1.5">
         {COUNTRIES.map((c) => {
           const on = profile.countries.includes(c.code)
@@ -133,8 +138,8 @@ export function ProfileForm({
         })}
       </div>
       <p className="mt-2 text-[10.5px] text-ink-soft/80 leading-snug">
-        Selecting a country activates its policy flags (capital controls, subsidies, sanctions
-        adjacency, import licensing) in the policy sub-score.
+        Picking a country switches on its real-world risks — capital controls, subsidy cuts,
+        sanctions, import rules — in your country score. Hover a country to see which.
       </p>
     </aside>
   )

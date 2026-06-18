@@ -22,11 +22,30 @@ export function scoreColor(v: number): string {
   return COLORS.danger
 }
 
-export const DIMENSION_META: Record<Dimension, { label: string; short: string }> = {
-  fx: { label: 'FX exposure', short: 'FX' },
-  liquidity: { label: 'Liquidity buffer', short: 'Liquidity' },
-  concentration: { label: 'Concentration', short: 'Concentration' },
-  policy: { label: 'Policy & political', short: 'Policy' },
+export const DIMENSION_META: Record<
+  Dimension,
+  { label: string; short: string; plain: string }
+> = {
+  fx: {
+    label: 'Currency risk',
+    short: 'Currency',
+    plain: 'Do your dollar/euro costs outrun your dollar/euro income?',
+  },
+  liquidity: {
+    label: 'Cash cushion',
+    short: 'Cash',
+    plain: 'Could you keep running if income stopped for a few months?',
+  },
+  concentration: {
+    label: 'Eggs in one basket',
+    short: 'Concentration',
+    plain: 'How much rides on one market, one supplier, one route.',
+  },
+  policy: {
+    label: 'Country risk',
+    short: 'Country',
+    plain: 'Capital controls, subsidy cuts, sanctions, import rules.',
+  },
 }
 
 export const EFFORT_META = {

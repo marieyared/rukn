@@ -129,12 +129,12 @@ export default function App() {
           <span className="font-semibold">{profile.name}</span>
           <span className="text-white/55">·</span>
           <span>
-            A <strong>{worstImpact.scenario.label.replace(/\s*\(.*\)/, '').toLowerCase()}</strong>{' '}
-            would cost about{' '}
+            Most likely big hit — <strong>{worstImpact.scenario.label.toLowerCase()}</strong>: about{' '}
             <strong className="text-amber">
               {fmtEur(worstImpact.marginHitEur, { compact: true })}
             </strong>{' '}
-            of margin this year — {Math.round(worstImpact.pctOfAnnualMargin)}% of your annual margin.
+            of lost profit this year, {Math.round(worstImpact.pctOfAnnualMargin)}% of everything you
+            make in a year.
           </span>
         </div>
       </div>
@@ -157,14 +157,15 @@ export default function App() {
                 />
               </div>
               <div>
-                <div className="flex items-baseline justify-between mb-3">
+                <div className="flex items-baseline justify-between mb-1">
                   <h2 className="font-display text-lg font-semibold text-navy">
-                    Where you stand, by dimension
+                    What's driving it
                   </h2>
-                  <span className="text-[11px] text-ink-soft">
-                    Ticks show your starting point
-                  </span>
+                  <span className="text-[11px] text-ink-soft">0 = fragile · 100 = solid</span>
                 </div>
+                <p className="text-[12px] text-ink-soft mb-3">
+                  Four things decide how well you'd take a hit. Higher is safer.
+                </p>
                 <SubScores sub={current.sub} baseline={baseline.sub} />
                 <ProgressNote
                   done={done.size}
@@ -182,10 +183,10 @@ export default function App() {
               <h2 className="font-display text-lg font-semibold text-navy">
                 What the next shock costs you
               </h2>
-              <span className="text-[11px] text-ink-soft">Ranked by probability-weighted severity</span>
+              <span className="text-[11px] text-ink-soft">Most likely & most painful first</span>
             </div>
             <p className="text-[12px] text-ink-soft mb-3">
-              Company-specific, in cash. Click any number to audit the calculation.
+              Your own numbers, in plain cash. Tap any figure to see exactly how we got it.
             </p>
             <ScenarioImpacts impacts={impacts} />
           </section>
@@ -227,15 +228,14 @@ function ProgressNote({
       <div className="text-[12.5px] text-ink leading-snug">
         {gap > 0 ? (
           <>
-            <strong>{gap} more points</strong> of resilience are within reach. Working the open
-            levers takes you from <strong>{current}</strong> toward{' '}
-            <strong className="text-positive">{potential}</strong> — the score a CFO comes back to
-            watch climb.
+            You're at <strong>{current}</strong>. Doing the actions below could take you to{' '}
+            <strong className="text-positive">{potential}</strong> —{' '}
+            <strong>{gap} points</strong> safer. That's the whole point: watch it climb as you act.
           </>
         ) : (
           <>
-            You've captured the full modelled upside — score at <strong>{current}</strong>. Refresh
-            your profile as the business changes to keep it honest.
+            You've done everything on the plan — you're at <strong>{current}</strong>. Update your
+            numbers as the business changes to keep it honest.
           </>
         )}
       </div>

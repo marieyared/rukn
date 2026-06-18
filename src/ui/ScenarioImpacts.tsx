@@ -61,7 +61,7 @@ export function ScenarioImpacts({ impacts }: { impacts: ScenarioImpact[] }) {
                   <div className="rounded-lg bg-navy text-white text-xs px-3 py-2 shadow-lift max-w-[220px]">
                     <div className="font-medium">{payload[0].payload.full}</div>
                     <div className="text-amber font-semibold mt-1">
-                      {fmtEur(payload[0].payload.value, { compact: true })} margin hit
+                      {fmtEur(payload[0].payload.value, { compact: true })} of lost profit
                     </div>
                   </div>
                 ) : null
@@ -133,13 +133,13 @@ function ScenarioCard({
       </div>
       <div className="flex items-end justify-between mt-2">
         <div>
-          <div className="text-[10px] uppercase tracking-wide text-ink-soft">Margin hit</div>
+          <div className="text-[10px] uppercase tracking-wide text-ink-soft">What it costs you</div>
           <span className="font-display text-2xl font-semibold tnum" style={{ color: sevColor }}>
             {fmtEur(imp.marginHitEur, { compact: true })}
           </span>
         </div>
         <span className="text-[12px] font-semibold tnum mb-1" style={{ color: sevColor }}>
-          {fmtPct(imp.pctOfAnnualMargin)} of margin
+          = {fmtPct(imp.pctOfAnnualMargin)} of a year's profit
         </span>
       </div>
       <div className="mt-2 h-1 rounded-full bg-ink/10 overflow-hidden">
@@ -153,8 +153,9 @@ function ScenarioCard({
           {imp.scenario.note}
           <div className="mt-1.5">
             <AuditableNumber
-              display="Audit this number"
+              display="See how we got this number"
               title={imp.scenario.label}
+              plain={imp.scenario.note}
               steps={imp.trace}
               className="text-[11px] text-petrol font-semibold"
             />

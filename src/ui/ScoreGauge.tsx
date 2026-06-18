@@ -112,8 +112,8 @@ export function ScoreGauge({
         )}
         {showGhost && (
           <div className="mt-2 text-[11px] text-ink-soft/90 text-center max-w-[180px] leading-tight">
-            Potential <span className="font-semibold text-positive">{Math.round(potential)}</span> if
-            you act on the open levers
+            Could reach <span className="font-semibold text-positive">{Math.round(potential)}</span>{' '}
+            if you act on the plan below
           </div>
         )}
       </div>

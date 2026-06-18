@@ -11,12 +11,14 @@ export function AuditableNumber({
   display,
   title,
   steps,
+  plain,
   className = '',
   align = 'left',
 }: {
   display: string
   title: string
   steps: TraceStep[]
+  plain?: string
   className?: string
   align?: 'left' | 'right'
 }) {
@@ -55,6 +57,12 @@ export function AuditableNumber({
                 How this is calculated
               </div>
               <div className="text-sm font-medium leading-snug mt-0.5">{title}</div>
+              {plain && (
+                <div className="text-[11.5px] text-white/65 leading-snug mt-1.5">{plain}</div>
+              )}
+            </div>
+            <div className="px-4 pt-2 -mb-1 text-[9.5px] uppercase tracking-[0.14em] text-white/35 font-semibold">
+              The maths, step by step
             </div>
             <ol className="px-4 py-3 space-y-2.5">
               {steps.map((s, i) => (

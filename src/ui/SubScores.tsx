@@ -18,13 +18,16 @@ export function SubScores({ sub, baseline }: { sub: Sub; baseline: Sub }) {
             className="rounded-xl bg-surface-1 p-3.5 ring-1 ring-ink/5"
           >
             <div className="flex items-baseline justify-between">
-              <span className="text-[12px] font-medium text-ink-soft">
+              <span className="text-[12.5px] font-semibold text-ink">
                 {DIMENSION_META[d].label}
               </span>
               <span className="tnum text-xl font-display font-semibold" style={{ color }}>
                 {Math.round(v)}
               </span>
             </div>
+            <p className="text-[10.5px] text-ink-soft leading-snug mt-0.5">
+              {DIMENSION_META[d].plain}
+            </p>
             <div className="relative mt-2 h-1.5 rounded-full bg-ink/10 overflow-visible">
               {/* baseline tick */}
               <div

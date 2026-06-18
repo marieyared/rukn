@@ -25,20 +25,20 @@ export function Playbook({
       <div className="flex items-center justify-between mb-3">
         <div>
           <div className="text-[11px] uppercase tracking-[0.16em] text-ink-soft font-semibold">
-            Mitigation playbook
+            Your action plan
           </div>
           <div className="text-[12px] text-ink-soft mt-0.5">
-            Ranked by impact per unit of effort. Tick a lever to see your score move.
+            Biggest payoff for least effort, first. Tick one off to watch your score climb.
           </div>
         </div>
         <div className="text-right">
-          <div className="text-[10px] uppercase tracking-wide text-ink-soft">Modelled upside still open</div>
+          <div className="text-[10px] uppercase tracking-wide text-ink-soft">Still on the table</div>
           <div className="font-display text-xl font-semibold text-petrol tnum">
             {fmtEur(totalOpen, { compact: true })}/yr
           </div>
           {captured > 0 && (
             <div className="text-[11px] text-positive font-semibold">
-              {fmtEur(captured, { compact: true })}/yr captured
+              {fmtEur(captured, { compact: true })}/yr already secured
             </div>
           )}
         </div>
@@ -106,13 +106,14 @@ export function Playbook({
                 <span className="flex items-center gap-2 mt-2.5 flex-wrap">
                   <Chip className={EFFORT_META[a.effort].cls}>{EFFORT_META[a.effort].label} EFFORT</Chip>
                   <Chip className="bg-navy/5 text-ink-soft">
-                    +{a.scoreUplift} {DIMENSION_META[a.improves].short}
+                    +{a.scoreUplift} {DIMENSION_META[a.improves].short} score
                   </Chip>
                   <span className="text-[12px] text-ink-soft">·</span>
                   <span className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-petrol">
                     <AuditableNumber
                       display={`${fmtEur(a.annualImpactEur, { compact: true })}/yr`}
                       title={a.label}
+                      plain={a.detail}
                       steps={a.trace}
                       className="text-petrol"
                     />
