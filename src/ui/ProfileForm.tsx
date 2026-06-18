@@ -121,7 +121,11 @@ export function ProfileForm({
                   ? 'bg-navy text-white'
                   : 'bg-surface-2 text-ink-soft hover:bg-surface-1'
               }`}
-              title={c.flags.map((f) => POLICY_FLAG_LABELS[f]).join(', ') || 'No active flags'}
+              title={
+                c.flags
+                  .map((f) => `${POLICY_FLAG_LABELS[f.flag]} (${Math.round(f.intensity * 100)}%)`)
+                  .join(', ') || 'No active policy flags'
+              }
             >
               {c.name}
             </button>

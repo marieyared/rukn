@@ -15,10 +15,24 @@ export type PolicyFlag =
 
 export type CountryCode = 'EG' | 'LB' | 'SA' | 'AE' | 'MA' | 'TN' | 'JO' | 'IQ'
 
+/**
+ * A policy flag as it applies to a specific country, with an intensity 0–1
+ * reflecting how acute that risk is *there, right now*. This is where the
+ * curated regional read lives — Lebanon's capital controls (≈1.0) bite far
+ * harder than Tunisia's managed convertibility (≈0.55), even though both
+ * carry the same flag. Editable by hand; the basis of the "current conditions".
+ */
+export type CountryFlagWeight = {
+  flag: PolicyFlag
+  intensity: number // 0..1
+}
+
 export type Country = {
   code: CountryCode
   name: string
-  flags: PolicyFlag[]
+  flags: CountryFlagWeight[]
+  /** When these intensities were last reviewed (ISO date). Honesty over hype. */
+  reviewed: string
 }
 
 /** The company exposure profile the user describes (README §4). */

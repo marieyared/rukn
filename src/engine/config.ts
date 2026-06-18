@@ -41,16 +41,72 @@ export const POLICY_PENALTY: Record<PolicyFlag, number> = {
   importLicensing: 18,
 }
 
-/** Country reference data — which flags each operating country activates. */
+/**
+ * Country reference data. Each flag carries an intensity (0–1) for how acute it
+ * is in that country today — so the policy sub-score reflects real severity, not
+ * a flat "has the flag / doesn't". This is the curated regional read; it is a
+ * hand-set judgement (reviewed dates below) and is meant to be revised, not a
+ * live feed. Resulting policy sub-scores: LB 45 · EG 53 · IQ 67 · TN 68 ·
+ * MA 81 · JO 93 · SA/AE 100 — Lebanon correctly the most acute, Tunisia milder.
+ */
 export const COUNTRIES: Country[] = [
-  { code: 'EG', name: 'Egypt', flags: ['capitalControls', 'subsidyExposed', 'importLicensing'] },
-  { code: 'LB', name: 'Lebanon', flags: ['capitalControls'] },
-  { code: 'SA', name: 'Saudi Arabia', flags: [] },
-  { code: 'AE', name: 'UAE', flags: [] },
-  { code: 'MA', name: 'Morocco', flags: ['subsidyExposed', 'importLicensing'] },
-  { code: 'TN', name: 'Tunisia', flags: ['capitalControls', 'subsidyExposed', 'importLicensing'] },
-  { code: 'JO', name: 'Jordan', flags: ['subsidyExposed'] },
-  { code: 'IQ', name: 'Iraq', flags: ['sanctionsAdjacency', 'capitalControls'] },
+  {
+    code: 'EG',
+    name: 'Egypt',
+    reviewed: '2026-06',
+    flags: [
+      { flag: 'capitalControls', intensity: 0.85 }, // FX rationing eased but real
+      { flag: 'subsidyExposed', intensity: 0.9 }, // IMF-driven fuel/energy cuts ongoing
+      { flag: 'importLicensing', intensity: 0.7 },
+    ],
+  },
+  {
+    code: 'LB',
+    name: 'Lebanon',
+    reviewed: '2026-06',
+    flags: [
+      { flag: 'capitalControls', intensity: 1.0 }, // informal but absolute since 2019
+      { flag: 'importLicensing', intensity: 0.75 }, // FX scarcity throttles imports
+      { flag: 'sanctionsAdjacency', intensity: 0.6 },
+      { flag: 'subsidyExposed', intensity: 0.3 }, // most subsidies already gone
+    ],
+  },
+  { code: 'SA', name: 'Saudi Arabia', reviewed: '2026-06', flags: [] },
+  { code: 'AE', name: 'UAE', reviewed: '2026-06', flags: [] },
+  {
+    code: 'MA',
+    name: 'Morocco',
+    reviewed: '2026-06',
+    flags: [
+      { flag: 'subsidyExposed', intensity: 0.7 },
+      { flag: 'importLicensing', intensity: 0.5 },
+    ],
+  },
+  {
+    code: 'TN',
+    name: 'Tunisia',
+    reviewed: '2026-06',
+    flags: [
+      { flag: 'capitalControls', intensity: 0.55 }, // dinar managed, not collapsed
+      { flag: 'subsidyExposed', intensity: 0.65 }, // IMF pressure, slower pace
+      { flag: 'importLicensing', intensity: 0.5 },
+    ],
+  },
+  {
+    code: 'JO',
+    name: 'Jordan',
+    reviewed: '2026-06',
+    flags: [{ flag: 'subsidyExposed', intensity: 0.5 }],
+  },
+  {
+    code: 'IQ',
+    name: 'Iraq',
+    reviewed: '2026-06',
+    flags: [
+      { flag: 'sanctionsAdjacency', intensity: 0.85 },
+      { flag: 'capitalControls', intensity: 0.65 }, // USD access via auctions constrained
+    ],
+  },
 ]
 
 /** Human-readable labels for policy flags (used in UI + methodology). */

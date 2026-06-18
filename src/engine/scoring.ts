@@ -33,14 +33,24 @@ export const round = (x: number, dp = 0) => {
   return Math.round(x * f) / f
 }
 
-/** Active policy flags for a profile's operating countries (de-duplicated). */
-export function activeFlags(profile: CompanyProfile): PolicyFlag[] {
-  const set = new Set<PolicyFlag>()
+/**
+ * Per-flag intensity (0–1) for a profile's operating countries. When several
+ * countries are selected, each flag takes its worst (max) intensity across them.
+ */
+export function flagIntensities(profile: CompanyProfile): Partial<Record<PolicyFlag, number>> {
+  const out: Partial<Record<PolicyFlag, number>> = {}
   for (const code of profile.countries) {
     const c = COUNTRIES.find((x) => x.code === code)
-    c?.flags.forEach((f) => set.add(f))
+    c?.flags.forEach(({ flag, intensity }) => {
+      out[flag] = Math.max(out[flag] ?? 0, intensity)
+    })
   }
-  return [...set]
+  return out
+}
+
+/** Active policy flags for a profile's operating countries (de-duplicated). */
+export function activeFlags(profile: CompanyProfile): PolicyFlag[] {
+  return Object.keys(flagIntensities(profile)) as PolicyFlag[]
 }
 
 /**
@@ -69,8 +79,17 @@ export function concentrationScore(p: CompanyProfile): number {
 }
 
 export function policyScore(p: CompanyProfile): number {
-  const penalty = activeFlags(p).reduce((sum, f) => sum + POLICY_PENALTY[f], 0)
+  const fi = flagIntensities(p)
+  const penalty = (Object.keys(fi) as PolicyFlag[]).reduce(
+    (sum, f) => sum + POLICY_PENALTY[f] * (fi[f] ?? 0),
+    0,
+  )
   return round(clamp(100 - penalty, 0, 100))
+}
+
+/** Standalone policy sub-score for a single country (for the methodology table). */
+export function countryPolicyScore(code: CompanyProfile['countries'][number]): number {
+  return policyScore({ countries: [code] } as CompanyProfile)
 }
 
 export function subScores(p: CompanyProfile): SubScores {

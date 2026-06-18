@@ -76,8 +76,14 @@ t('resilient firm FX > 80', () => assert.ok(fxScore(resilient) > 80))
 console.log('liquidity / concentration / policy')
 t('2.5 of 6 months -> 42', () => assert.equal(liquidityScore(egypt), 42))
 t('80% concentration -> 17', () => assert.equal(concentrationScore(egypt), 17))
-t('Egypt policy -> 42', () => assert.equal(policyScore(egypt), 42))
+t('Egypt policy (intensity-weighted) -> 53', () => assert.equal(policyScore(egypt), 53))
 t('UAE policy -> 100', () => assert.equal(policyScore(resilient), 100))
+t('Lebanon worse than Tunisia on policy (calibration fix)', () => {
+  const lb = policyScore({ ...egypt, countries: ['LB'] })
+  const tn = policyScore({ ...egypt, countries: ['TN'] })
+  assert.ok(lb < tn, `expected LB(${lb}) < TN(${tn})`)
+  assert.ok(tn > 60, `Tunisia should be milder now, got ${tn}`)
+})
 
 console.log('overall')
 t('Egyptian importer < 45 and > 0', () => {

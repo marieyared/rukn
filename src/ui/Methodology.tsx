@@ -6,6 +6,8 @@ import {
   CONC_SPAN,
   POLICY_PENALTY,
   POLICY_FLAG_LABELS,
+  COUNTRIES,
+  countryPolicyScore,
   type PolicyFlag,
 } from '../engine'
 import { DIMENSION_META, scoreColor } from '../theme'
@@ -91,19 +93,56 @@ export function Methodology({ onClose }: { onClose: () => void }) {
           <section>
             <H>Policy sub-score</H>
             <p className="text-[13px] text-ink-soft mb-2">
-              Starts at 100; each active country flag removes points. Bounded at 0.
+              Starts at 100; each active country flag removes points, scaled by an{' '}
+              <strong>intensity (0–1)</strong> for how acute that risk is in that country today.
+              Lebanon's capital controls (≈100%) bite far harder than Tunisia's managed
+              convertibility (≈55%), even though both carry the same flag. Bounded at 0.
             </p>
-            <div className="space-y-1.5">
-              {(Object.keys(POLICY_PENALTY) as PolicyFlag[]).map((f) => (
-                <div
-                  key={f}
-                  className="flex items-center justify-between text-[13px] bg-surface-1 rounded-lg px-3 py-1.5"
-                >
-                  <span className="text-ink">{POLICY_FLAG_LABELS[f]}</span>
-                  <span className="tnum font-semibold text-danger">−{POLICY_PENALTY[f]}</span>
+            <Formula>policyScore = 100 − Σ (basePenalty(flag) × intensity(country, flag))</Formula>
+            <div className="mt-3 grid sm:grid-cols-2 gap-3">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-ink-soft mb-1.5">
+                  Base penalties
                 </div>
-              ))}
+                <div className="space-y-1.5">
+                  {(Object.keys(POLICY_PENALTY) as PolicyFlag[]).map((f) => (
+                    <div
+                      key={f}
+                      className="flex items-center justify-between text-[12.5px] bg-surface-1 rounded-lg px-3 py-1.5"
+                    >
+                      <span className="text-ink">{POLICY_FLAG_LABELS[f]}</span>
+                      <span className="tnum font-semibold text-danger">−{POLICY_PENALTY[f]}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-ink-soft mb-1.5">
+                  Resulting score by country
+                </div>
+                <div className="space-y-1.5">
+                  {[...COUNTRIES]
+                    .map((c) => ({ c, s: countryPolicyScore(c.code) }))
+                    .sort((a, b) => a.s - b.s)
+                    .map(({ c, s }) => (
+                      <div
+                        key={c.code}
+                        className="flex items-center justify-between text-[12.5px] bg-surface-1 rounded-lg px-3 py-1.5"
+                      >
+                        <span className="text-ink">{c.name}</span>
+                        <span className="tnum font-semibold" style={{ color: scoreColor(s) }}>
+                          {s}
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              </div>
             </div>
+            <p className="mt-2 text-[11px] text-ink-soft/75 leading-snug">
+              These intensities are a hand-set regional read (last reviewed 2026-06), not a live
+              feed — editable in one file. They are the curated data that deepens with every
+              engagement.
+            </p>
           </section>
 
           <section>

@@ -90,12 +90,18 @@ describe('concentration score', () => {
 })
 
 describe('policy score', () => {
-  it('Egypt activates capital controls + subsidy + licensing penalties', () => {
-    // 100 - (25 + 15 + 18) = 42
-    expect(policyScore(egypt)).toBe(42)
+  it('Egypt: intensity-weighted penalties -> 53', () => {
+    // 100 - (0.85*25 + 0.9*15 + 0.7*18) = 100 - 47.35 = 52.65 -> 53
+    expect(policyScore(egypt)).toBe(53)
   })
   it('UAE has no flags -> 100', () => {
     expect(policyScore(resilient)).toBe(100)
+  })
+  it('Lebanon is more acute than Tunisia on policy (the calibration fix)', () => {
+    const lb = policyScore({ ...egypt, countries: ['LB'] })
+    const tn = policyScore({ ...egypt, countries: ['TN'] })
+    expect(lb).toBeLessThan(tn) // Lebanon worse (lower) than Tunisia
+    expect(tn).toBeGreaterThan(60) // Tunisia no longer in the harshest tier
   })
 })
 
